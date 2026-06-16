@@ -1,8 +1,9 @@
 # CML Model Reproduction Code
 
-This repository contains Julia code for reproducing stochastic simulations, model fitting, and figures for a model of chronic myeloid leukemia (CML) initiation.
+This repository contains the Julia and Python code used to reproduce simulations, model fitting, and figures for a mathematical model of chronic myeloid leukemia (CML) initiation. The model describes the stochastic dynamics of normal and leukemic hematopoietic cell populations and examines how feedback regulation and initial leukemic chimerism influence disease progression.
 
-The recommended way to run the code is with Docker. Docker installs the required Julia environment and package versions inside a container, so users do not need to manually configure Julia packages.
+Docker is the recommended way to run the repository. It provides the required Julia and Python environments, package versions, and system dependencies.
+
 
 ## Requirements
 
@@ -22,11 +23,13 @@ docker info
 so far tested on macOS Tahoe 26.5.1
 
 
-#Download from git
+##Download from git
 
 ```bash
 git clone https://github.com/mikamooman/Chronic-Myelogenous-Leukemia-Modeling.git
+```
 
+```bash
 cd Chronic-Myelogenous-Leukemia-Modeling
 ```
 
@@ -40,7 +43,9 @@ docker build -t cml-model:paper .
 this should take ~ 5-10 mins
 
 
-## Reproduce all figures
+## Reproduce CML free survival plots and Chimerism vs time plots
+
+if using bash try:
 
 ```bash
 docker run --rm \
@@ -48,6 +53,12 @@ docker run --rm \
   -v "$(pwd)/output:/app/output" \
   cml-model:paper figures
 ```
+
+if using powershell try:
+```bash
+docker run --rm --env JULIA_NUM_THREADS=1 -v "${pwd}/output:/app/output" cml-model:paper figures
+```
+
 
 Generated files will be written to the local `output/` folder.
 
@@ -62,11 +73,16 @@ docker run --rm \
   cml-model:paper demo-fit
 ```
 
+if using powershell try:
+```bash
+docker run --rm --env JULIA_NUM_THREADS=1 -v "${pwd}/output:/app/output" cml-model:paper demo-fit
+```
+
 Generated files will be written to the local `output/` folder.
 
 expect this to take ~ 30-45 mins
 
-## Recreate supplementary Chip figures
+## Recreate supplementary CHIP figures
 
 ```bash
 docker run --rm \
@@ -75,6 +91,12 @@ docker run --rm \
   cml-model:paper supplemental-python
 
 ```
+
+if using powershell try:
+```bash
+docker run --rm --env JULIA_NUM_THREADS=1 -v "${pwd}/output:/app/output" cml-model:paper supplemental-python
+```
+
 
 this shouldnt take long < 5 minutes
 
@@ -148,22 +170,21 @@ The Docker commands above use:
 
 Multi - threading is not currently supported
 
-## Running without Docker
+## Language and package versions
 
-Users with Julia installed can run:
+julia: 1.8.1
+Optim: 1.11.0
+Distributions: 0.25.118
+Plots: 1.40.20
+StatsBase: 0.34.4
 
-```bash
-julia --project=. -e 'using Pkg; Pkg.instantiate()'
-julia --project=. scripts/reproduce_all_figures.jl
-```
+Python: 3.12.3
+Numpy: 2.3.4
+Scipy: 1.16.3
+Matplotlib: 3.9.2.
 
-Individual scripts can also be run directly:
 
-```bash
-julia --project=. scripts/reproduce_survival_figure.jl
-julia --project=. scripts/reproduce_chimerism_figure.jl
-julia --project=. scripts/demo_fit.jl
-julia --project=. scripts/fit_model.jl
+
 ```
 
 ## Citation
@@ -177,5 +198,7 @@ If this repository is used, please cite the associated manuscript.
 ## License
 
 ```text
-[Add license here]
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
 ```
