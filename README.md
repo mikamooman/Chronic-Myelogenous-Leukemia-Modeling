@@ -17,7 +17,18 @@ docker --version
 docker info
 ```
 
-Note: it is only confirmed to work on MacOS so far
+## Tested
+
+so far tested on macOS Tahoe 26.5.1
+
+
+#Download from git
+
+```bash
+git clone https://github.com/mikamooman/Chronic-Myelogenous-Leukemia-Modeling.git
+
+cd Chronic-Myelogenous-Leukemia-Modeling
+```
 
 ## Build the Docker image
 
@@ -54,6 +65,18 @@ docker run --rm \
 Generated files will be written to the local `output/` folder.
 
 expect this to take ~ 30-45 mins
+
+## Recreate supplementary Chip figures
+
+```bash
+docker run --rm \
+  --env JULIA_NUM_THREADS=1 \
+  -v "$(pwd)/output:/app/output" \
+  cml-model:paper supplemental-python
+
+```
+
+this shouldnt take long < 5 minutes
 
 ## Available workflows
 
@@ -100,6 +123,17 @@ docker run --rm \
   --env JULIA_NUM_THREADS=1 \
   -v "$(pwd)/output:/app/output" \
   cml-model:paper full-fit
+```
+
+Note: full model fit will take hours possibly a day or two.
+
+Reproduce the supplementary CHIP figures
+
+```bash
+docker run --rm \
+  --env JULIA_NUM_THREADS=1 \
+  -v "$(pwd)/output:/app/output" \
+  cml-model:paper supplemental-python
 ```
 
 The full fit may take substantially longer than the demonstration fit.

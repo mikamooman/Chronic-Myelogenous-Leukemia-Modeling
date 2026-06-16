@@ -29,6 +29,11 @@ case "$COMMAND" in
         exec /bin/bash
         ;;
 
+
+  supplemental-python)
+    exec python3 /app/python/supplemental_chip_figures.py
+    ;;
+
     *)
         echo "Unknown command: $COMMAND"
         echo "Available commands:"
