@@ -6,11 +6,9 @@ The recommended way to run the code is with Docker. Docker installs the required
 
 ## Requirements
 
-Install Docker Desktop:
+Install Docker Desktop: https://docs.docker.com/get-started/get-docker/
 
-* macOS: Docker Desktop for Mac
-* Windows: Docker Desktop with WSL 2 backend
-* Linux: Docker Engine or Docker Desktop
+- windows will also need to install WSL: https://learn.microsoft.com/en-us/windows/wsl/install
 
 Check that Docker is working:
 
@@ -19,6 +17,8 @@ docker --version
 docker info
 ```
 
+Note: it is only confirmed to work on MacOS so far
+
 ## Build the Docker image
 
 From the top-level repository folder:
@@ -26,6 +26,8 @@ From the top-level repository folder:
 ```bash
 docker build -t cml-model:paper .
 ```
+this should take ~ 5-10 mins
+
 
 ## Reproduce all figures
 
@@ -37,6 +39,21 @@ docker run --rm \
 ```
 
 Generated files will be written to the local `output/` folder.
+
+expect this to take ~10-30 mins
+
+## Run a small demo fit and plot the results
+
+```bash
+docker run --rm \
+  --env JULIA_NUM_THREADS=1 \
+  -v "$(pwd)/output:/app/output" \
+  cml-model:paper demo-fit
+```
+
+Generated files will be written to the local `output/` folder.
+
+expect this to take ~ 30-45 mins
 
 ## Available workflows
 
@@ -87,20 +104,6 @@ docker run --rm \
 
 The full fit may take substantially longer than the demonstration fit.
 
-## Repository structure
-
-```text
-.
-├── Dockerfile
-├── Project.toml
-├── Manifest.toml
-├── README.md
-├── src/
-├── scripts/
-├── docker/
-└── output/
-```
-
 ## Notes on threading
 
 The Docker commands above use:
@@ -109,7 +112,7 @@ The Docker commands above use:
 --env JULIA_NUM_THREADS=1
 ```
 
-This is recommended for reproducibility because the stochastic simulations use random sampling.
+Multi - threading is not currently supported
 
 ## Running without Docker
 

@@ -24,7 +24,7 @@ algorithm = SAMIN(
 )
 
 options = Optim.Options(
-    iterations = 25,
+    iterations = 50,
     f_calls_limit = 500,
     f_tol = 0.5,
     x_tol = 1e-3,
@@ -167,12 +167,24 @@ plot_chimerism_curves(
     )
 
 
+    parameter_labels = [
+        "ϕ_L",
+        "rm",
+        "p̄ / p̄_L",
+        "n",
+        "α",
+        "h",
+        "dm",
+        "thresh",
+        "γ_ratio"
+    ]
+
     open(joinpath(OUTPUT_DIR, "demo_fit_parameters.txt"), "w") do io
         println(io, "Demo-fit parameters")
         println(io, "Minimum loss: ", Optim.minimum(result))
         println(io)
 
-        for (i, value) in enumerate(learned_parameters)
-            println(io, "parameter_$i = $value")
+        for (label, value) in zip(parameter_labels, learned_parameters)
+            println(io, label, " = ", value)
         end
     end

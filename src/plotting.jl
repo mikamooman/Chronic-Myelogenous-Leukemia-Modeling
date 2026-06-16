@@ -104,7 +104,7 @@ function plot_chimerism_curves(
         linestyle = :dot,
         linewidth = 3,
         xlabel = "Days after Dox removal",
-        ylabel = "Terminal cell chimerism",
+        ylabel = "Mean Chimerism",
         yscale = :log10,
         ylim = (0.001, 1.05),
         xlim = (0, 270)
