@@ -20,10 +20,10 @@ docker info
 
 ## Tested
 
-so far tested on macOS Tahoe 26.5.1
+so far tested on macOS Tahoe 26.5.1 & Windows 11 Version 25H2
 
 
-##Download from git
+## Download from git
 
 ```bash
 git clone https://github.com/mikamooman/Chronic-Myelogenous-Leukemia-Modeling.git
